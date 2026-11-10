@@ -71,9 +71,7 @@ void McpServer::AddCommonTools() {
                 });
     }
 AddTool("self.bluetooth.set_state", "开启或关闭蓝牙模块", 
-    PropertyList({
-        Property("enable", kPropertyTypeBoolean)
-    }), 
+std::vector<Property>{ Property("enable", kPropertyTypeBoolean) }
     [](const PropertyList& properties) -> ReturnValue {
         bool enable = properties["enable"].value<bool>();
         
