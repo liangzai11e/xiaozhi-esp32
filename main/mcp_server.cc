@@ -70,11 +70,22 @@ void McpServer::AddCommonTools() {
                     return true;
                 });
     }
-
+AddTool("self.bluetooth.set_state", "开启或关闭蓝牙模块", 
+    PropertyList({
+        Property("enable", kPropertyTypeBoolean)
+    }), 
+    [](const PropertyList& properties) -> ReturnValue {
+        bool enable = properties["enable"].value<bool>();
+        
+        // 打印日志验证功能，暂不控制物理引脚
+        ESP_LOGI("Bluetooth", "收到蓝牙开关指令: %d", enable);
+        
+        return true;
+    });
 #ifdef HAVE_LVGL
     auto display = board.GetDisplay();
     if (display && display->GetTheme() != nullptr) {
-        AddTool("self.screen.set_theme",
+        l("self.screen.set_theme",
                 "Set the theme of the screen. The theme can be `light` or `dark`.",
                 PropertyList({Property("theme", kPropertyTypeString)}),
                 [display](const PropertyList& properties) -> ReturnValue {
